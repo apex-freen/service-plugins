@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/host-apex--mcp--bridge-6c5ce7?style=flat-square" alt="Host">
   <img src="https://img.shields.io/badge/api%20version-plugin.gis%2Fv1-6c5ce7?style=flat-square" alt="API Version">
   <img src="https://img.shields.io/badge/python-≥3.10-3776AB?logo=python&style=flat-square" alt="Python">
-  <img src="https://img.shields.io/badge/license-TBD-lightgrey?style=flat-square" alt="License">
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
 </p>
 
 # apex-mcp-bridge 服务插件集
