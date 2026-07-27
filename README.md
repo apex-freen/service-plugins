@@ -14,7 +14,7 @@
 
 # apex-mcp-bridge Service Plugins
 
-The official plugin ecosystem for [apex-mcp-bridge](https://github.com/user/apex-mcp-bridge). Each plugin extends the bridge with a specific service capability — file management, data reporting, network printing, and more.
+The official plugin ecosystem for [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge). Each plugin extends the bridge with a specific service capability — file management, data reporting, network printing, and more.
 
 > **Philosophy**: copy a plugin folder into `service_plugins/`, and the bridge dynamically detects and loads it — no restart, no wiring, no registration step.
 >

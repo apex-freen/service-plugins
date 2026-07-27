@@ -20,7 +20,7 @@
 >
 > 其他 NAS 系统（如 Synology、QNAP 等）的 SMB 文件管理插件将由后续独立插件提供。
 
-本插件运行在 [apex-mcp-bridge](https://github.com/user/apex-mcp-bridge) 之上。关于插件系统的完整工作原理、MCP 协议集成及如何开发新插件，请参阅 apex-mcp-bridge 项目文档。
+本插件运行在 [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge) 之上。关于插件系统的完整工作原理、MCP 协议集成及如何开发新插件，请参阅 apex-mcp-bridge 项目文档。
 
 ## 目录
 

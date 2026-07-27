@@ -13,7 +13,7 @@
 
 # apex-mcp-bridge 服务插件集
 
-[apex-mcp-bridge](https://github.com/user/apex-mcp-bridge) 的官方插件生态仓库。每个插件为一个独立服务能力 —— 文件管理、数据报表、网络打印等。
+[apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge) 的官方插件生态仓库。每个插件为一个独立服务能力 —— 文件管理、数据报表、网络打印等。
 
 > **设计哲学**：把插件文件夹拷贝到 `service_plugins/` 下，bridge 自动检测并动态加载，无需重启、无需接线、无需注册。
 >

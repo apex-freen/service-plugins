@@ -21,7 +21,7 @@ A dedicated plugin for [FNOS](https://www.qiniu.com) (Qiniu NAS System) — mana
 >
 > SMB file management plugins for other NAS systems (e.g., Synology, QNAP) will be provided as separate plugins in the future.
 
-This plugin runs on top of [apex-mcp-bridge](https://github.com/user/apex-mcp-bridge). For the complete plugin system architecture, MCP protocol integration, and how to develop new plugins, please refer to the apex-mcp-bridge project documentation.
+This plugin runs on top of [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge). For the complete plugin system architecture, MCP protocol integration, and how to develop new plugins, please refer to the apex-mcp-bridge project documentation.
 
 ## Table of Contents
 
