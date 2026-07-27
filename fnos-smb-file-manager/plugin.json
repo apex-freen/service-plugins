@@ -1,0 +1,97 @@
+{
+  "manifest": {
+    "name": "fnos-smb-file-manager",
+    "apiVersion": "plugin.gis/v1",
+    "kind": "Plugin",
+    "version": "1.0.0",
+    "serviceType": "file-manager",
+    "disabled": false,
+    "serverUrl": "192.168.99.105"
+  },
+  "info": {
+    "title": "FNOS SMB文件管理服务",
+    "description": "FNOS（七牛NAS系统）专用插件，通过SMB/CIFS协议管理FNOS设备上的共享文件，支持SMB 2.0.2至3.1.1协议。提供文件列表、创建目录、删除文件/目录等功能",
+    "tags": [
+      "fnos",
+      "smb",
+      "smb3",
+      "cifs",
+      "file",
+      "storage",
+      "network"
+    ]
+  },
+  "runtime": {
+    "interpreter": "python3",
+    "workDir": "./service_plugins/fnos-smb-file-manager",
+    "defaultTimeout": 30
+  },
+  "methods": [
+    {
+      "name": "smb.file.list",
+      "description": "列出SMB共享指定目录下的所有文件和子目录。返回每个条目的名称、类型(file/directory)、大小(字节)、创建时间、修改时间",
+      "inputSchema": {
+        "properties": {
+          "path": {
+            "description": "要列出的子目录路径（相对于base_path），如 'subdir1/subdir2'。留空则列出base_path根目录",
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "handler": "list_files.py",
+      "mode": "sync",
+      "timeout": 30,
+      "risk_level": "normal"
+    },
+    {
+      "name": "smb.file.mkdir",
+      "description": "在SMB共享目录下创建新目录，支持递归创建多级目录",
+      "inputSchema": {
+        "properties": {
+          "path": {
+            "description": "要创建的目录路径（相对于base_path），如 'new_folder/sub_folder'",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "type": "object"
+      },
+      "handler": "mkdir.py",
+      "mode": "sync",
+      "timeout": 30,
+      "risk_level": "normal"
+    },
+    {
+      "name": "smb.file.delete",
+      "description": "删除SMB共享目录下的指定文件或空目录。注意：只能删除空目录，非空目录将返回错误",
+      "inputSchema": {
+        "properties": {
+          "path": {
+            "description": "要删除的文件或目录路径（相对于base_path）",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path"
+        ],
+        "type": "object"
+      },
+      "handler": "delete.py",
+      "mode": "sync",
+      "timeout": 30,
+      "risk_level": "risk"
+    }
+  ],
+  "config": {
+    "smb_base_path": "",
+    "smb_domain": "",
+    "smb_password": "your_password_here",
+    "smb_port": 445,
+    "smb_share": "music",
+    "smb_username": "fnos"
+  }
+}
