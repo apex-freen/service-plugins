@@ -85,17 +85,26 @@ User (MCP) → bridge → discovers method in plugin.json
 
 ## Quick Start: Using a Plugin
 
-1. Copy the plugin folder into the bridge's plugin directory:
+1. Download a plugin folder and copy it into the bridge's plugin directory:
 
    ```bash
    cp -r fnos-smb-file-manager/ /path/to/apex-mcp-bridge/service_plugins/
    ```
 
-2. Edit the plugin's `plugin.json` to configure target server address and credentials.
-
-3. The bridge auto-detects the new plugin folder and dynamically loads it — no restart needed.
+   The bridge auto-detects and dynamically loads it — no restart needed.
 
    > Dependency installation is automatic — the bridge scans all `requirements.txt` on startup.
+
+2. **Configure in the admin panel** — plugins ship with factory defaults. Open `apex-mcp-bridge`'s plugin management page to adjust:
+
+   | You must configure | Why |
+   |---|---|
+   | **Server address** (`serverUrl`) | Tells the plugin which server hosts the actual service. Every plugin targets a specific server — set its IP or hostname. |
+   | **Risk level** (`risk_level`) | Each method has a factory-default risk level, but your environment may demand tighter control. Adjust any method to `normal`, `risk`, `auth`, or `disable` as needed. |
+
+   Other settings (port, share name, credentials, etc.) are plugin-specific — see the plugin's own README for details.
+
+3. Done. The plugin is ready. Test a method call via MCP to verify connectivity.
 
 ## Plugin Development Guide
 
