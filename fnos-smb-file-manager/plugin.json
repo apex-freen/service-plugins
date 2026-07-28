@@ -10,7 +10,7 @@
   },
   "info": {
     "title": "FNOS SMB文件管理服务",
-    "description": "FNOS（七牛NAS系统）专用插件，通过SMB/CIFS协议管理FNOS设备上的共享文件，支持SMB 2.0.2至3.1.1协议。提供文件列表、创建目录、删除文件/目录等功能",
+    "description": "FNOS（飞牛NAS系统）专用插件，通过SMB/CIFS协议管理FNOS设备上的共享文件，支持SMB 2.0.2至3.1.1协议。提供文件列表、创建目录、删除文件/目录等功能",
     "tags": [
       "fnos",
       "smb",
@@ -89,7 +89,7 @@
   "config": {
     "smb_base_path": "",
     "smb_domain": "",
-    "smb_password": "your_password_here",
+    "smb_password": "Fnos`12@!",
     "smb_port": 445,
     "smb_share": "music",
     "smb_username": "fnos"

@@ -26,11 +26,10 @@ from smb_utils import (
 )
 
 
-def build_smb_url(conn_info: dict, filename: str) -> str:
+def build_smb_url(conn_info: dict, target_path: str, filename: str) -> str:
     """构造单个文件的 SMB 访问 URL，密码中的特殊字符做 URL 编码"""
     server = conn_info["server"]
     share = conn_info["share"]
-    base_path = conn_info["base_path"]
     username = conn_info["username"]
     password = conn_info["password"]
 
@@ -38,8 +37,8 @@ def build_smb_url(conn_info: dict, filename: str) -> str:
     path_parts = []
     if share:
         path_parts.append(share)
-    if base_path:
-        path_parts.append(base_path)
+    if target_path:
+        path_parts.append(target_path)
     path_parts.append(quote(filename, safe="/"))
     file_path = "/".join(path_parts)
 
@@ -77,7 +76,7 @@ def main():
 
         # 为每个文件构造 smb_url
         for entry in entries:
-            entry["smb_url"] = build_smb_url(conn_info, entry["name"])
+            entry["smb_url"] = build_smb_url(conn_info, target_path, entry["name"])
 
         output_json(
             0,

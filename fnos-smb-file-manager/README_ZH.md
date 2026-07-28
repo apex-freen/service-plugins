@@ -14,7 +14,7 @@
 
 # FNOS SMB 文件管理服务
 
-[FNOS](https://www.qiniu.com)（七牛 NAS 系统）专用插件——通过 SMB / CIFS 协议管理 FNOS 设备上的共享文件，支持文件列表、创建目录、删除文件/空目录，覆盖 SMB 2.0.2 至 3.1.1 协议。
+[FNOS](https://club.fnnas.com/portal.php)（飞牛 NAS 系统）专用插件——通过 SMB / CIFS 协议管理 FNOS 设备上的共享文件，支持文件列表、创建目录、删除文件/空目录，覆盖 SMB 2.0.2 至 3.1.1 协议。
 
 > **为什么是 FNOS 专用？** FNOS 不支持匿名用户（Guest）或 `Everyone` 角色的免密访问——所有 SMB 连接均强制要求身份验证。这意味着你无法像其他 NAS 那样空着用户名密码直接连上。解法是在 FNOS 上创建一个**公开账户**（如 `fnos`），赋予相应共享目录的读写权限，然后在插件配置中填入该账户凭证，以替代传统 NAS 的匿名 / Everyone 访问方式。
 >
@@ -69,7 +69,7 @@
 | Python | ≥ 3.10 |
 | 依赖库 | [smbprotocol](https://pypi.org/project/smbprotocol/) ≥ 1.15.0（SMB 2/3 协议纯 Python 实现） |
 | 网络 | 运行 `apex-mcp-bridge` 的主机需能访问目标 SMB 服务器的 TCP 445 端口 |
-| FNOS 设备 | 已部署并开启 FNOS（七牛 NAS 系统），SMB 文件共享服务正常运行 |
+| FNOS 设备 | 已部署并开启 FNOS（飞牛 NAS 系统），SMB 文件共享服务正常运行 |
 
 ## 安装
 

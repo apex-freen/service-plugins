@@ -15,7 +15,7 @@
 
 # FNOS SMB File Manager
 
-A dedicated plugin for [FNOS](https://www.qiniu.com) (Qiniu NAS System) — manage shared files on FNOS devices via the SMB / CIFS protocol. Supports file listing, directory creation, and file / empty directory deletion, covering SMB 2.0.2 through 3.1.1.
+A dedicated plugin for [FNOS](https://club.fnnas.com/portal.php) (Feiniu NAS System) — manage shared files on FNOS devices via the SMB / CIFS protocol. Supports file listing, directory creation, and file / empty directory deletion, covering SMB 2.0.2 through 3.1.1.
 
 > **Why FNOS-specific?** FNOS does not support anonymous (Guest) or `Everyone` role access without credentials — all SMB connections require authentication. This means you cannot simply leave username and password blank to connect, unlike many other NAS systems. The solution is to create a **public account** on FNOS (e.g., `fnos`), grant it read / write permissions on the target share, then configure the plugin with that account's credentials. This public account effectively replaces the traditional `Everyone` / `Guest` role found on other NAS platforms.
 >
@@ -70,7 +70,7 @@ This plugin runs on top of [apex-mcp-bridge](https://github.com/apex-freen/apex-
 | Python | ≥ 3.10 |
 | Dependencies | [smbprotocol](https://pypi.org/project/smbprotocol/) ≥ 1.15.0 (pure-Python SMB 2/3 implementation) |
 | Network | The host running `apex-mcp-bridge` must be able to reach the FNOS device on TCP port 445 |
-| FNOS Device | FNOS (Qiniu NAS System) deployed with SMB file sharing enabled |
+| FNOS Device | FNOS (Feiniu NAS System) deployed with SMB file sharing enabled |
 | Public Account | A dedicated FNOS account with read / write permissions on the target share (FNOS does not support anonymous access) |
 
 ## Installation
