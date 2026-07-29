@@ -23,7 +23,8 @@
 > ⚠️ **安全提醒**：插件会在你的主机上执行 Python 代码。请仅安装来自官方仓库或你完全信任来源的插件。如果你从非官方渠道获取了插件，且不了解其代码内容，**请不要使用** —— 它可能包含恶意逻辑，危及你的系统和数据安全。
 
 > **相关项目：**
-> - [apex-esp32-s3-v6](https://gitee.com/freen/apex-esp32-s3-v6) — 底层硬件框架
+> - [apex-esp32-s3-v6](https://gitee.com/freen/apex-esp32-s3-v6) — 底层硬件框架 (ESP32-S3)
+> - [apex-esp32-c3-v6](https://gitee.com/freen/apex-esp32-c3-v6) — 底层硬件框架 (ESP32-C3)
 > - [service-plugins](https://gitee.com/freen/service-plugins) — 插件框架（本仓库）
 > - [apex-mcp-bridge](https://gitee.com/freen/apex-mcp-bridge) — 核心项目框架
 

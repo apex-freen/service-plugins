@@ -387,6 +387,7 @@ FNOS 不支持匿名用户（Guest）或 `Everyone` 角色的免密访问——�
 
 ## 相关项目
 
-- [apex-esp32-s3-v6](https://gitee.com/freen/apex-esp32-s3-v6) — 底层硬件框架
+- [apex-esp32-s3-v6](https://gitee.com/freen/apex-esp32-s3-v6) — 底层硬件框架 (ESP32-S3)
+- [apex-esp32-c3-v6](https://gitee.com/freen/apex-esp32-c3-v6) — 底层硬件框架 (ESP32-C3)
 - [service-plugins](https://gitee.com/freen/service-plugins) — 插件框架
 - [apex-mcp-bridge](https://gitee.com/freen/apex-mcp-bridge) — 核心 MCP 服务器框架
