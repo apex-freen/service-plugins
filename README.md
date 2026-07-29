@@ -19,7 +19,7 @@ The official plugin ecosystem for [apex-mcp-bridge](https://github.com/apex-free
 
 > **Philosophy**: copy a plugin folder into `service_plugins/`, and the bridge dynamically detects and loads it — no restart, no wiring, no registration step.
 >
-> **The real power**: Anyone — yes, even without coding experience — can ask an AI agent to generate a custom plugin following the templates and specifications in this guide. Need a printer plugin? A data report plugin? Just describe what you want to the agent, and it writes the plugin for you. Outstanding community contributions will be featured in the official plugin library.
+> **The real power**: You don't even need to write a single line of code. This repository provides a complete, standardized plugin framework — all method input schemas, configuration templates, stdin/stdout communication protocol, and unified response format are pre-built. Simply hand these templates as constraints to an AI agent, describe the service you want in natural language (a printer plugin? a data report?), and the agent generates complete, ready-to-run plugin code within the framework. How the script reads parameters, how it returns results, how it handles errors — it's all wired up in the template already. Outstanding community contributions will be featured in the official plugin library.
 
 > ⚠️ **Security notice**: Plugins execute arbitrary Python code on your host. Only install plugins from the official repository or sources you fully trust. If you obtained a plugin from an unofficial channel and you don't understand its code, **do not use it** — it may contain malicious logic that compromises your system or data.
 
