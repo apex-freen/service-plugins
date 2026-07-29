@@ -1,26 +1,32 @@
 <!--
   ┌──────────────────────────────────────────────────────┐
   │  apex-mcp-bridge Service Plugins                     │
-  │  README Template — all project-level docs follow     │
-  │  this structure.                                     │
+  │  Production documentation — fully expanded MCP       │
+  │  protocol support (2026-07-28).                      │
   └──────────────────────────────────────────────────────┘
 -->
 <p align="center">
   <img src="https://img.shields.io/badge/host-apex--mcp--bridge-6c5ce7?style=flat-square" alt="Host">
   <img src="https://img.shields.io/badge/api%20version-plugin.gis%2Fv1-6c5ce7?style=flat-square" alt="API Version">
   <img src="https://img.shields.io/badge/python-≥3.10-3776AB?logo=python&style=flat-square" alt="Python">
+  <img src="https://img.shields.io/badge/MCP-2026.07.28-6c5ce7?style=flat-square" alt="MCP Protocol">
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
 </p>
 
 # apex-mcp-bridge Service Plugins
 
-The official plugin ecosystem for [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge). Each plugin extends the bridge with a specific service capability — file management, data reporting, network printing, and more.
+The official plugin ecosystem for [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge). Each plugin extends the bridge with a specific service capability — file management, data reporting, network printing, and more. **Now fully expanded with complete [MCP (Model Context Protocol)](https://modelcontextprotocol.io/) support (2026-07-28)** — all plugins are natively exposed as MCP tools, enabling seamless AI agent integration.
 
 > **Philosophy**: copy a plugin folder into `service_plugins/`, and the bridge dynamically detects and loads it — no restart, no wiring, no registration step.
 >
 > **The real power**: Anyone — yes, even without coding experience — can ask an AI agent to generate a custom plugin following the templates and specifications in this guide. Need a printer plugin? A data report plugin? Just describe what you want to the agent, and it writes the plugin for you. Outstanding community contributions will be featured in the official plugin library.
 
 > ⚠️ **Security notice**: Plugins execute arbitrary Python code on your host. Only install plugins from the official repository or sources you fully trust. If you obtained a plugin from an unofficial channel and you don't understand its code, **do not use it** — it may contain malicious logic that compromises your system or data.
+
+> **Related projects:**
+> - [apex-esp32-s3-v6](https://github.com/apex-freen/apex-esp32-s3-v6) — Hardware framework
+> - [service-plugins](https://github.com/apex-freen/service-plugins) — Plugin framework (this repository)
+> - [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge) — Core project framework
 
 ## Table of Contents
 
@@ -41,9 +47,9 @@ The official plugin ecosystem for [apex-mcp-bridge](https://github.com/apex-free
 
 | Plugin | Service Type | Description |
 |--------|-------------|-------------|
-| [fnos-smb-file-manager](./fnos-smb-file-manager/) | `file-manager` | FNOS SMB file management — list, create directories, delete files on FNOS devices |
+| [fnos-smb-file-manager](./fnos-smb-file-manager/) | `file-manager` | FNOS SMB file management — list, create directories, delete files on FNOS devices via MCP tools |
 
-> More plugins are under development. See the [project roadmap](#) for upcoming plugins.
+> The plugin ecosystem is fully expanded. All plugins are natively exposed as MCP tools — just install and invoke via any MCP-compatible client. More plugins are under active development.
 
 ## Architecture
 
@@ -73,14 +79,14 @@ The official plugin ecosystem for [apex-mcp-bridge](https://github.com/apex-free
 4. **Process isolation** — each method invocation spawns a fresh Python process. A crash in one handler never affects the bridge or other plugins.
 5. **Self-managed config** — plugin-specific configuration (server address, credentials, etc.) lives inside the plugin's own `plugin.json`. The handler reads it directly — the bridge never needs to know about it.
 
-### How a Method Call Works
+### How an MCP Tool Call Works
 
 ```
-User (MCP) → bridge → discovers method in plugin.json
-                     → spawns: python3 <handler.py> <method_name>
-                     → writes params JSON to stdin
-                     → reads response JSON from stdout
-                     → returns to User
+MCP Client → bridge (MCP server) → discovers method in plugin.json
+                                  → spawns: python3 <handler.py> <method_name>
+                                  → writes params JSON to stdin
+                                  → reads response JSON from stdout
+                                  → returns MCP tool result to Client
 ```
 
 ## Quick Start: Using a Plugin

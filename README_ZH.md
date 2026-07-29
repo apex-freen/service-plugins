@@ -1,25 +1,31 @@
 <!--
   ┌──────────────────────────────────────────────────┐
   │  apex-mcp-bridge Service Plugins                 │
-  │  README 模板 —— 所有项目级文档均照此结构           │
+  │  正式文档 —— 全面支持 MCP 协议 (2026-07-28)        │
   └──────────────────────────────────────────────────┘
 -->
 <p align="center">
   <img src="https://img.shields.io/badge/host-apex--mcp--bridge-6c5ce7?style=flat-square" alt="Host">
   <img src="https://img.shields.io/badge/api%20version-plugin.gis%2Fv1-6c5ce7?style=flat-square" alt="API Version">
   <img src="https://img.shields.io/badge/python-≥3.10-3776AB?logo=python&style=flat-square" alt="Python">
+  <img src="https://img.shields.io/badge/MCP-2026.07.28-6c5ce7?style=flat-square" alt="MCP Protocol">
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
 </p>
 
 # apex-mcp-bridge 服务插件集
 
-[apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge) 的官方插件生态仓库。每个插件为一个独立服务能力 —— 文件管理、数据报表、网络打印等。
+[apex-mcp-bridge](https://gitee.com/freen/apex-mcp-bridge) 的官方插件生态仓库。每个插件为一个独立服务能力 —— 文件管理、数据报表、网络打印等。**现已全面扩展，完整支持 [MCP（Model Context Protocol，模型上下文协议）](https://modelcontextprotocol.io/)(2026-07-28)** —— 所有插件均原生暴露为 MCP 工具，实现与 AI 智能体的无缝集成。
 
 > **设计哲学**：把插件文件夹拷贝到 `service_plugins/` 下，bridge 自动检测并动态加载，无需重启、无需接线、无需注册。
 >
 > **真正的亮点**：任何人 —— 哪怕完全不懂代码 —— 都可以让 AI 智能体按照本文档中的模板和规范，自动生成自己需要的插件。想要打印机插件？数据报表插件？只需用自然语言描述需求，智能体就能帮你写出来。优秀的社区作品将收录到官方插件库。
 
 > ⚠️ **安全提醒**：插件会在你的主机上执行 Python 代码。请仅安装来自官方仓库或你完全信任来源的插件。如果你从非官方渠道获取了插件，且不了解其代码内容，**请不要使用** —— 它可能包含恶意逻辑，危及你的系统和数据安全。
+
+> **相关项目：**
+> - [apex-esp32-s3-v6](https://gitee.com/freen/apex-esp32-s3-v6) — 底层硬件框架
+> - [service-plugins](https://gitee.com/freen/service-plugins) — 插件框架（本仓库）
+> - [apex-mcp-bridge](https://gitee.com/freen/apex-mcp-bridge) — 核心项目框架
 
 ## 目录
 
@@ -40,9 +46,9 @@
 
 | 插件 | 服务类型 | 说明 |
 |------|----------|------|
-| [fnos-smb-file-manager](./fnos-smb-file-manager/) | `file-manager` | FNOS SMB 文件管理 —— 列出文件、创建目录、删除文件/空目录 |
+| [fnos-smb-file-manager](./fnos-smb-file-manager/) | `file-manager` | FNOS SMB 文件管理 —— 通过 MCP 工具实现列出文件、创建目录、删除文件/空目录 |
 
-> 更多插件正在开发中。详见[项目路线图](#)。
+> 插件生态已全面扩展。所有插件均原生暴露为 MCP 工具 —— 安装后即可通过任意 MCP 兼容客户端调用。更多插件正在积极开发中。
 
 ## 架构概览
 
@@ -72,14 +78,14 @@
 4. **进程隔离** —— 每次方法调用启动全新 Python 进程。一个处理器崩溃不会影响 bridge 或其他插件。
 5. **配置自管** —— 插件私有配置（服务器地址、凭证等）放在插件自身的 `plugin.json` 中，由处理器直接读取。bridge 完全不需要了解这些。
 
-### 一次方法调用的完整流程
+### 一次 MCP 工具调用的完整流程
 
 ```
-用户 (MCP) → bridge → 在 plugin.json 中发现方法
-                    → 启动: python3 <handler.py> <方法名>
-                    → 通过 stdin 写入参数 JSON
-                    → 通过 stdout 读取响应 JSON
-                    → 返回给用户
+MCP 客户端 → bridge (MCP 服务器) → 在 plugin.json 中发现方法
+                                 → 启动: python3 <handler.py> <方法名>
+                                 → 通过 stdin 写入参数 JSON
+                                 → 通过 stdout 读取响应 JSON
+                                 → 返回 MCP 工具结果给客户端
 ```
 
 ## 快速开始：使用一个插件

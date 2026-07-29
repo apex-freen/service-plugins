@@ -1,8 +1,8 @@
 <!--
   ┌──────────────────────────────────────────────────────────────────────┐
-  │  apex-mcp-bridge Plugin README Template (English)                    │
-  │  All plugins (data reports, network printer, data service, etc.)     │
-  │  follow this structure.                                              │
+  │  apex-mcp-bridge Plugin — Production documentation                   │
+  │  FNOS SMB File Manager — native MCP tool support                    │
+  │  (MCP protocol — 2026-07-28)                                         │
   └──────────────────────────────────────────────────────────────────────┘
 -->
 <p align="center">
@@ -10,18 +10,19 @@
   <img src="https://img.shields.io/badge/api%20version-plugin.gis%2Fv1-6c5ce7?style=flat-square" alt="API Version">
   <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/python-≥3.10-3776AB?logo=python&style=flat-square" alt="Python">
+  <img src="https://img.shields.io/badge/MCP-2026.07.28-6c5ce7?style=flat-square" alt="MCP Protocol">
   <img src="https://img.shields.io/badge/protocol-SMB%202.0.2--3.1.1-orange?style=flat-square" alt="SMB">
 </p>
 
 # FNOS SMB File Manager
 
-A dedicated plugin for [FNOS](https://club.fnnas.com/portal.php) (Feiniu NAS System) — manage shared files on FNOS devices via the SMB / CIFS protocol. Supports file listing, directory creation, and file / empty directory deletion, covering SMB 2.0.2 through 3.1.1.
+A dedicated plugin for [FNOS](https://club.fnnas.com/portal.php) (Feiniu NAS System) — manage shared files on FNOS devices via the SMB / CIFS protocol. Supports file listing, directory creation, and file / empty directory deletion, covering SMB 2.0.2 through 3.1.1. **Fully MCP-compatible (2026-07-28)** — all methods are exposed as native MCP tools, callable from any MCP client.
 
 > **Why FNOS-specific?** FNOS does not support anonymous (Guest) or `Everyone` role access without credentials — all SMB connections require authentication. This means you cannot simply leave username and password blank to connect, unlike many other NAS systems. The solution is to create a **public account** on FNOS (e.g., `fnos`), grant it read / write permissions on the target share, then configure the plugin with that account's credentials. This public account effectively replaces the traditional `Everyone` / `Guest` role found on other NAS platforms.
 >
 > SMB file management plugins for other NAS systems (e.g., Synology, QNAP) will be provided as separate plugins in the future.
 
-This plugin runs on top of [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge). For the complete plugin system architecture, MCP protocol integration, and how to develop new plugins, please refer to the apex-mcp-bridge project documentation.
+This plugin runs on top of [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge) — a full MCP (Model Context Protocol) server that auto-discovers plugins and exposes them as native MCP tools. For the complete plugin system architecture, MCP protocol integration details, and how to develop new plugins, please refer to the apex-mcp-bridge project documentation.
 
 ## Table of Contents
 
@@ -384,3 +385,9 @@ No. Each method invocation starts a fresh Python process that reads the latest `
 2. Add a new method entry in `plugin.json`'s `methods` array, pointing `handler` to the new script
 3. The bridge dynamically loads the new method on next discovery cycle
 </details>
+
+## Related Projects
+
+- [apex-esp32-s3-v6](https://github.com/apex-freen/apex-esp32-s3-v6) — Hardware framework
+- [service-plugins](https://github.com/apex-freen/service-plugins) — Plugin framework
+- [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge) — Core MCP server framework

@@ -1,26 +1,28 @@
 <!--
-  ┌─────────────────────────────────────────────────────┐
-  │  apex-mcp-bridge 插件 README 模板                    │
-  │  所有插件（数据报表、网络打印机、数据服务等）均照此结构  │
-  └─────────────────────────────────────────────────────┘
+  ┌──────────────────────────────────────────────────────┐
+  │  apex-mcp-bridge 插件 —— 正式文档                     │
+  │  FNOS SMB 文件管理 —— 原生 MCP 工具支持               │
+  │  (MCP 协议 — 2026-07-28)                              │
+  └──────────────────────────────────────────────────────┘
 -->
 <p align="center">
   <img src="https://img.shields.io/badge/plugin-FNOS-00b894?style=flat-square" alt="FNOS">
   <img src="https://img.shields.io/badge/api%20version-plugin.gis%2Fv1-6c5ce7?style=flat-square" alt="API Version">
   <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/python-≥3.10-3776AB?logo=python&style=flat-square" alt="Python">
+  <img src="https://img.shields.io/badge/MCP-2026.07.28-6c5ce7?style=flat-square" alt="MCP Protocol">
   <img src="https://img.shields.io/badge/protocol-SMB%202.0.2--3.1.1-orange?style=flat-square" alt="SMB">
 </p>
 
 # FNOS SMB 文件管理服务
 
-[FNOS](https://club.fnnas.com/portal.php)（飞牛 NAS 系统）专用插件——通过 SMB / CIFS 协议管理 FNOS 设备上的共享文件，支持文件列表、创建目录、删除文件/空目录，覆盖 SMB 2.0.2 至 3.1.1 协议。
+[FNOS](https://club.fnnas.com/portal.php)（飞牛 NAS 系统）专用插件——通过 SMB / CIFS 协议管理 FNOS 设备上的共享文件，支持文件列表、创建目录、删除文件/空目录，覆盖 SMB 2.0.2 至 3.1.1 协议。**全面兼容 MCP（2026-07-28）**——所有方法均原生暴露为 MCP 工具，支持任意 MCP 客户端调用。
 
 > **为什么是 FNOS 专用？** FNOS 不支持匿名用户（Guest）或 `Everyone` 角色的免密访问——所有 SMB 连接均强制要求身份验证。这意味着你无法像其他 NAS 那样空着用户名密码直接连上。解法是在 FNOS 上创建一个**公开账户**（如 `fnos`），赋予相应共享目录的读写权限，然后在插件配置中填入该账户凭证，以替代传统 NAS 的匿名 / Everyone 访问方式。
 >
 > 其他 NAS 系统（如 Synology、QNAP 等）的 SMB 文件管理插件将由后续独立插件提供。
 
-本插件运行在 [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge) 之上。关于插件系统的完整工作原理、MCP 协议集成及如何开发新插件，请参阅 apex-mcp-bridge 项目文档。
+本插件运行在 [apex-mcp-bridge](https://gitee.com/freen/apex-mcp-bridge) 之上 —— 一个完整的 MCP（Model Context Protocol，模型上下文协议）服务器，可自动发现插件并将其暴露为原生 MCP 工具。关于插件系统的完整工作原理、MCP 协议集成细节及如何开发新插件，请参阅 apex-mcp-bridge 项目文档。
 
 ## 目录
 
@@ -382,3 +384,9 @@ FNOS 不支持匿名用户（Guest）或 `Everyone` 角色的免密访问——�
 2. 在 `plugin.json` 的 `methods` 数组中新增一条方法定义，指定 `handler` 指向新脚本
 3. bridge 在下次检测周期自动加载新方法
 </details>
+
+## 相关项目
+
+- [apex-esp32-s3-v6](https://gitee.com/freen/apex-esp32-s3-v6) — 底层硬件框架
+- [service-plugins](https://gitee.com/freen/service-plugins) — 插件框架
+- [apex-mcp-bridge](https://gitee.com/freen/apex-mcp-bridge) — 核心 MCP 服务器框架
