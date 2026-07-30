@@ -24,9 +24,9 @@ The official plugin ecosystem for [apex-mcp-bridge](https://github.com/apex-free
 > ⚠️ **Security notice**: Plugins execute arbitrary Python code on your host. Only install plugins from the official repository or sources you fully trust. If you obtained a plugin from an unofficial channel and you don't understand its code, **do not use it** — it may contain malicious logic that compromises your system or data.
 
 > **Related projects:**
-> - [apex-esp32-s3-v6](https://github.com/apex-freen/apex-esp32-s3-v6) — Hardware framework (ESP32-S3)
-> - [apex-esp32-c3-v6](https://github.com/apex-freen/apex-esp32-c3-v6) — Hardware framework (ESP32-C3)
-> - [service-plugins](https://github.com/apex-freen/service-plugins) — Plugin framework (this repository)
+> - [apex-mcp-esp32-s3-v6](https://github.com/apex-freen/apex-mcp-esp32-s3-v6) — Hardware framework (ESP32-S3)
+> - [apex-mcp-esp32-c3-v6](https://github.com/apex-freen/apex-mcp-esp32-c3-v6) — Hardware framework (ESP32-C3)
+> - [apex-mcp-service-plugins](https://github.com/apex-freen/apex-mcp-service-plugins) — Plugin framework (this repository)
 > - [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge) — Core project framework
 
 ## Table of Contents

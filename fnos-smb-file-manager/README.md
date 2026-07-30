@@ -388,7 +388,7 @@ No. Each method invocation starts a fresh Python process that reads the latest `
 
 ## Related Projects
 
-- [apex-esp32-s3-v6](https://github.com/apex-freen/apex-esp32-s3-v6) — Hardware framework (ESP32-S3)
-- [apex-esp32-c3-v6](https://github.com/apex-freen/apex-esp32-c3-v6) — Hardware framework (ESP32-C3)
-- [service-plugins](https://github.com/apex-freen/service-plugins) — Plugin framework
+- [apex-mcp-esp32-s3-v6](https://github.com/apex-freen/apex-mcp-esp32-s3-v6) — Hardware framework (ESP32-S3)
+- [apex-mcp-esp32-c3-v6](https://github.com/apex-freen/apex-mcp-esp32-c3-v6) — Hardware framework (ESP32-C3)
+- [apex-mcp-service-plugins](https://github.com/apex-freen/apex-mcp-service-plugins) — Plugin framework
 - [apex-mcp-bridge](https://github.com/apex-freen/apex-mcp-bridge) — Core MCP server framework
