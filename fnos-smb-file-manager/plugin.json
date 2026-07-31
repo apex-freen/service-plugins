@@ -89,9 +89,9 @@
   "config": {
     "smb_base_path": "",
     "smb_domain": "",
-    "smb_password": "Fnos`12@!",
+    "smb_password": "your password",
     "smb_port": 445,
     "smb_share": "music",
-    "smb_username": "fnos"
+    "smb_username": "your username"
   }
 }
