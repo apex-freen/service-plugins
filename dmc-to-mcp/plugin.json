@@ -1,0 +1,144 @@
+{
+    "manifest": {
+        "name": "dmc-to-mcp",
+        "apiVersion": "plugin.gis/v1",
+        "kind": "Plugin",
+        "version": "1.0.0",
+        "serviceType": "dlna-controller",
+        "disabled": false,
+        "serverUrl": ""
+    },
+    "info": {
+        "title": "DLNA DMC 媒体控制服务",
+        "description": "通用 DLNA DMC（Digital Media Controller）转 MCP 插件。支持扫描发现局域网内的 DLNA 设备（DMS 媒体服务器 / DMR 媒体渲染器），浏览 DMS 媒体库，将媒体内容推送到 DMR 播放，并控制播放状态（播放/暂停/停止/音量）。兼容所有遵循 UPnP AV 标准的 DLNA 设备。",
+        "tags": [
+            "dlna",
+            "upnp",
+            "dmc",
+            "dms",
+            "dmr",
+            "media",
+            "audio",
+            "video",
+            "streaming",
+            "ssdp"
+        ]
+    },
+    "runtime": {
+        "interpreter": "python3",
+        "workDir": "./service_plugins/dmc-to-mcp",
+        "defaultTimeout": 30
+    },
+    "methods": [
+        {
+            "name": "dlna.discover",
+            "description": "扫描发现局域网内所有 DLNA 设备（DMS 和 DMR）。返回每个设备的名称、类型(DMS/DMR)、UDN（唯一标识）、描述文档 URL、支持的服务列表。可通过 service_type 参数过滤只返回 DMS 或 DMR。",
+            "inputSchema": {
+                "properties": {
+                    "service_type": {
+                        "description": "过滤设备类型：空或'all'返回全部，'dms'只返回媒体服务器，'dmr'只返回媒体渲染器",
+                        "type": "string"
+                    },
+                    "timeout": {
+                        "description": "扫描超时时间（秒），默认 5 秒",
+                        "type": "integer"
+                    }
+                },
+                "required": [],
+                "type": "object"
+            },
+            "handler": "discover.py",
+            "mode": "sync",
+            "timeout": 15,
+            "risk_level": "normal"
+        },
+        {
+            "name": "dlna.browse",
+            "description": "浏览指定 DMS 上的媒体内容目录。支持按目录浏览或按分类（音乐/视频/图片）浏览，返回条目列表（名称、类型、媒体资源 URL、元数据等。DMS 可通过 udn 或预设名称指定。",
+            "inputSchema": {
+                "properties": {
+                    "dms_udn": {
+                        "description": "DMS 设备的 UDN（唯一标识），可从 dlna.discover 返回。若留空则使用 config 中预设的 default_dms_udn 或 default_dms_name 查找",
+                        "type": "string"
+                    },
+                    "object_id": {
+                        "description": "要浏览的目录/分类 ID，留空表示浏览根目录('0')。从 dlna.browse 返回的条目中可获取子目录的 object_id",
+                        "type": "string"
+                    },
+                    "browse_flag": {
+                        "description": "浏览方式：'BrowseDirectChildren'浏览直接子项（默认），'BrowseMetadata'只获取单个条目的元数据",
+                        "type": "string"
+                    }
+                },
+                "required": [],
+                "type": "object"
+            },
+            "handler": "browse.py",
+            "mode": "sync",
+            "timeout": 30,
+            "risk_level": "normal"
+        },
+        {
+            "name": "dlna.play",
+            "description": "将媒体资源推送到指定 DMR 播放，或控制当前播放状态（播放/暂停/停止/音量/跳转）。支持三种操作模式：1) play_url - 推送指定 URL 并播放；2) control - 控制当前播放（play/pause/stop）；3) volume - 设置音量。",
+            "inputSchema": {
+                "properties": {
+                    "dmr_udn": {
+                        "description": "DMR 设备的 UDN（唯一标识），可从 dlna.discover 返回。若留空则使用 config 中预设的 default_dmr_udn 或 default_dmr_name 查找",
+                        "type": "string"
+                    },
+                    "action": {
+                        "description": "操作类型：play_url（推送URL播放）、play（播放当前）、pause（暂停）、stop（停止）、volume（设置音量）",
+                        "type": "string"
+                    },
+                    "url": {
+                        "description": "媒体资源 URL（action=play_url 时必填），可从 dlna.browse 返回条目的 res_url 字段获取",
+                        "type": "string"
+                    },
+                    "volume": {
+                        "description": "音量值 0-100（action=volume 时必填）",
+                        "type": "integer"
+                    },
+                    "metadata": {
+                        "description": "媒体元数据 DIDL-Lite XML（action=play_url 时可选，用于在 DMR 上显示歌曲信息）",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "action"
+                ],
+                "type": "object"
+            },
+            "handler": "play.py",
+            "mode": "sync",
+            "timeout": 30,
+            "risk_level": "normal"
+        },
+        {
+            "name": "dlna.status",
+            "description": "查询指定 DMR 的当前播放状态，包括：传输状态（PLAYING/PAUSED_PLAYBACK/STOPPED）、当前播放位置（相对时间）、总时长、当前音量、当前媒体 URI。",
+            "inputSchema": {
+                "properties": {
+                    "dmr_udn": {
+                        "description": "DMR 设备的 UDN（唯一标识）。若留空则使用 config 中预设的 default_dmr_udn 或 default_dmr_name 查找",
+                        "type": "string"
+                    }
+                },
+                "required": [],
+                "type": "object"
+            },
+            "handler": "status.py",
+            "mode": "sync",
+            "timeout": 15,
+            "risk_level": "normal"
+        }
+    ],
+    "config": {
+        "default_dms_udn": "",
+        "default_dms_name": "",
+        "default_dmr_udn": "",
+        "default_dmr_name": "",
+        "discover_timeout": 5,
+        "search_interval": 0
+    }
+}
