@@ -281,7 +281,27 @@ function do_start() {
         local pid
         pid=$(cat "${PID_FILE}")
         echo "$(t running) ${pid})"
+        after_action_prompt
         return
+    fi
+
+    # 检查端口是否被占用（可能是上次崩溃残留的进程）
+    if command -v lsof &>/dev/null; then
+        local port_pid
+        port_pid=$(lsof -ti :${PORT} 2>/dev/null || echo "")
+        if [ -n "$port_pid" ]; then
+            echo "[WARN] Port ${PORT} is occupied by PID ${port_pid}, killing it..."
+            kill -9 "$port_pid" 2>/dev/null || true
+            sleep 1
+        fi
+    elif command -v ss &>/dev/null; then
+        local port_pid
+        port_pid=$(ss -tlnp "sport = :${PORT}" 2>/dev/null | grep -oP 'pid=\K[0-9]+' | head -1)
+        if [ -n "$port_pid" ]; then
+            echo "[WARN] Port ${PORT} is occupied by PID ${port_pid}, killing it..."
+            kill -9 "$port_pid" 2>/dev/null || true
+            sleep 1
+        fi
     fi
 
     select_interface
@@ -316,28 +336,46 @@ function do_start() {
 }
 
 function do_stop() {
-    if ! is_running; then
-        echo "$(t not_running)"
+    # 即使 PID 文件不存在，也检查端口是否被占用（清理残留进程）
+    local port_pid=""
+
+    if is_running; then
+        local pid
+        pid=$(cat "${PID_FILE}")
+        echo "$(t stopping) PID: ${pid}"
+
+        # 优雅停止
+        kill "${pid}" 2>/dev/null || true
+        sleep 2
+
+        if kill -0 "${pid}" 2>/dev/null; then
+            echo "$(t stop_failed)"
+            echo "$(t force_kill)"
+            kill -9 "${pid}" 2>/dev/null || true
+            sleep 1
+        fi
+
+        rm -f "${PID_FILE}"
+        echo "$(t stopped)"
+        after_action_prompt
         return
     fi
 
-    local pid
-    pid=$(cat "${PID_FILE}")
-    echo "$(t stopping) PID: ${pid}"
-
-    # 优雅停止
-    kill "${pid}" 2>/dev/null || true
-    sleep 2
-
-    if kill -0 "${pid}" 2>/dev/null; then
-        echo "$(t stop_failed)"
-        echo "$(t force_kill)"
-        kill -9 "${pid}" 2>/dev/null || true
-        sleep 1
+    # PID 文件不存在，但端口可能被残留进程占用
+    if command -v lsof &>/dev/null; then
+        port_pid=$(lsof -ti :${PORT} 2>/dev/null || echo "")
+    elif command -v ss &>/dev/null; then
+        port_pid=$(ss -tlnp "sport = :${PORT}" 2>/dev/null | grep -oP 'pid=\K[0-9]+' | head -1)
     fi
 
-    rm -f "${PID_FILE}"
-    echo "$(t stopped)"
+    if [ -n "$port_pid" ]; then
+        echo "[WARN] Found orphan process on port ${PORT} (PID: ${port_pid}), cleaning up..."
+        kill -9 "$port_pid" 2>/dev/null || true
+        sleep 1
+        echo "$(t stopped)"
+    else
+        echo "$(t not_running)"
+    fi
     after_action_prompt
 }
 

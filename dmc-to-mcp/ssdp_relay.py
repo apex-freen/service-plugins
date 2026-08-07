@@ -434,6 +434,11 @@ class SSDPRelay:
 # HTTP API
 # ============================================================
 
+class ReusableHTTPServer(HTTPServer):
+    """允许端口复用的 HTTPServer，避免重启时 Address already in use"""
+    allow_reuse_address = True
+
+
 class RelayHTTPHandler(BaseHTTPRequestHandler):
     """HTTP 请求处理器，提供设备查询/扫描 API"""
 
@@ -531,7 +536,8 @@ def main():
 
     # 启动 HTTP API
     RelayHTTPHandler.relay = relay
-    httpd = HTTPServer((args.bind, args.port), RelayHTTPHandler)
+    httpd = ReusableHTTPServer((args.bind, args.port), RelayHTTPHandler)
+    httpd.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     print(f"[INFO] HTTP API 已启动，监听 {args.bind}:{args.port}", file=sys.stderr)
     print("[INFO] 按 Ctrl+C 退出", file=sys.stderr)
 
